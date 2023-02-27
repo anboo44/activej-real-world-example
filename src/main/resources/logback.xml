@@ -1,0 +1,39 @@
+<configuration>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%cyan(%d{HH:mm:ss.SSS}) %green([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+    </appender>
+
+    <appender name="FileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>log/file.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d [%thread] %-5level %-50logger{40} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.hibernate.SQL" additivity="false" >
+        <level value="INFO" />
+        <appender-ref ref="Console" />
+    </logger>
+
+    <logger name="io.activej.config.ConfigModule" level="OFF"/>
+    <logger name="io.activej.service.ServiceGraphModule" level="OFF"/>
+    <logger name="com.uet.example.AppLauncher.0" level="OFF"/>
+    <logger name="io.activej.config.Config" level="OFF"/>
+    <logger name="org.hibernate.mapping.RootClass" level="OFF"/>
+    <logger name="org.hibernate.Version" level="OFF"/>
+    <logger name="o.h.e.j.c.i.ConnectionProviderInitiator" level="OFF"/>
+    <logger name="com.zaxxer.hikari.HikariDataSource" level="OFF"/>
+    <logger name="o.h.e.j.c.i.ConnectionProviderInitiator" level="OFF"/>
+    <logger name=" o.h.e.t.j.p.i.JtaPlatformInitiator" level="OFF"/>
+
+    <root level="INFO">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="FileAppender"/>
+    </root>
+</configuration>
