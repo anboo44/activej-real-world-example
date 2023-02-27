@@ -59,6 +59,7 @@
     <hibernate.version>6.1.7.Final</hibernate.version>
     <maven.compiler.source>17</maven.compiler.source>
     <json.version>1.10.0</json.version>
+    <liquibase.version>4.19.0</liquibase.version>
     <hikari.version>5.0.1</hikari.version>
     <log.version>1.2.6</log.version>
     <lombok.version>1.18.26</lombok.version>

@@ -25,7 +25,7 @@ public class AppLauncher extends HttpServerLauncher {
     protected Module getBusinessLogicModule() {
         return ModuleBuilder.create()
                             .multibind(Key.of(Config.class), Multibinders.ofBinaryOperator(Config::overrideWith))
-                            .install(WorkerPoolModule.create(), new DIProviderModule())
+                            .install(new DIProviderModule())
                             .build();
     }
 
