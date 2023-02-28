@@ -1,5 +1,6 @@
 package com.uet.example.api.controller;
 
+import com.uet.example.rpc.RPCModuleExample;
 import com.uet.example.service.FileService;
 import com.uet.example.service.stream.ChannelConsumerService;
 import com.uet.example.service.stream.CspTransformer;
@@ -26,6 +27,7 @@ public class AsyncSampleController extends BaseController {
     private @Inject CspTransformer           cspTransformer;
     private @Inject StreamContainer          streamContainer;
     private @Inject StreamTransformContainer sTransContainer;
+    private @Inject RPCModuleExample         rpcModuleExample;
 
     // Read more: https://activej.io/async-io/csp
     public HttpResponse testCSP(HttpRequest request) {
@@ -74,6 +76,11 @@ public class AsyncSampleController extends BaseController {
                       .streamTo(streamContainer.getConsumer());
 
         first.getResult().whenResult(result -> System.out.println("First Consumer received: " + result));
+        return success("DONE");
+    }
+
+    public HttpResponse testRpcRoundRobin(HttpRequest request) {
+        rpcModuleExample.testRpcStrategy();
         return success("DONE");
     }
 }

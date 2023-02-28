@@ -31,6 +31,7 @@ public final class RouteConfig {
                              .map(GET, withPath("/test-file"), asyncSampleController::testAsyncFile)
                              .map(GET, withPath("/test-csp"), asyncSampleController::testCSP)
                              .map(GET, withPath("/test-datastream"), asyncSampleController::testDataStream)
+                             .map(GET, withPath("/test-rpc-rrb"), asyncSampleController::testRpcRoundRobin)
                              // UserController routers
                              .map(GET, withPath("/login"), userController::login)
                              .map(POST, withPath("/users"), userController::register);

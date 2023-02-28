@@ -46,6 +46,11 @@
             <artifactId>activej-datastream</artifactId>
             <version>${activeJ.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.activej</groupId>
+            <artifactId>activej-rpc</artifactId>
+            <version>${activeJ.version}</version>
+        </dependency>
         <!-- [ Handle Json ] -->
         <dependency>
             <groupId>com.dslplatform</groupId>

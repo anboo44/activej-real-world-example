@@ -83,6 +83,14 @@ public final class DIProviderModule extends AbstractModule {
         }
     }
 
+    // @Override config
+//    @Provides
+//    Config config() {
+//        return Config.create()
+//                     .with("memcache.buffers", "4")
+//                     .with("memcache.bufferCapacity", "64mb");
+//    }
+
     //--------------/ AREA: database beans /--------------//
     @Provides
     private SessionFactory sessionFactory(ConfigLoader configLoader) {
