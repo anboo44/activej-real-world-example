@@ -5,6 +5,7 @@ import com.dslplatform.json.runtime.Settings;
 import com.uet.example.api.ServletCenter;
 import io.activej.config.Config;
 import io.activej.http.AsyncServlet;
+import io.activej.http.RoutingServlet;
 import io.activej.http.session.SessionServlet;
 import io.activej.http.session.SessionStore;
 import io.activej.http.session.SessionStoreInMemory;
@@ -50,8 +51,12 @@ public final class DIProviderModule extends AbstractModule {
         SessionStore<String> sessionStore,
         @Named("single") Executor executor
     ) {
-        var publicServlet  = routeConfig.publicServlet(executor);
-        var privateServlet = routeConfig.privateServlet();
+        // Need merge privateRouter & publicRouter in order for SessionServlet works
+        var publicServlet = routeConfig.publicServlet(executor);
+        var privateServlet = RoutingServlet.merge(
+            routeConfig.privateServlet(),
+            routeConfig.publicServlet(executor)
+        );
 
         var nextServlet = SessionServlet.create(sessionStore, SESSION_ID, publicServlet, privateServlet);
         return new ServletCenter(nextServlet, configLoader, dslJson);

@@ -51,6 +51,8 @@ public class ServletCenter implements AsyncServlet {
 
     @SneakyThrows
     private Promise<HttpResponse> handleException(Exception e) {
+        e.printStackTrace();
+
         var isBadRequestException = e instanceof IOException || e instanceof NumberFormatException;
 
         if (isBadRequestException) {

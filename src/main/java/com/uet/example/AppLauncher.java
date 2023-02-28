@@ -11,7 +11,6 @@ import io.activej.inject.binding.Multibinders;
 import io.activej.inject.module.Module;
 import io.activej.inject.module.ModuleBuilder;
 import io.activej.launchers.http.HttpServerLauncher;
-import io.activej.worker.WorkerPoolModule;
 
 /**
  * HttpServerLauncher: manages application lifecycle
