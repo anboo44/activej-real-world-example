@@ -43,6 +43,7 @@ public class AppLauncher extends HttpServerLauncher {
     @Override
     protected void run() throws Exception {
         this.logger.info("===[ Use profile: {} ]===", Env.get());
+        rpcModuleExample.sayHello();
         rpcModuleExample.run();
         super.run();
     }

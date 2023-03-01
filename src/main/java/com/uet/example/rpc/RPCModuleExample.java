@@ -1,5 +1,7 @@
 package com.uet.example.rpc;
 
+import com.coreoz.wisp.Scheduler;
+import com.coreoz.wisp.schedule.Schedules;
 import com.uet.example.rpc.helper.RpcClientConnectionPoolStub;
 import com.uet.example.rpc.helper.RpcSenderStub;
 import io.activej.eventloop.Eventloop;
@@ -8,7 +10,6 @@ import io.activej.inject.annotation.Inject;
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
 import io.activej.promise.Promise;
-import io.activej.promise.Promises;
 import io.activej.rpc.client.RpcClient;
 import io.activej.rpc.client.sender.RpcSender;
 import io.activej.rpc.client.sender.RpcStrategies;
@@ -18,6 +19,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -51,12 +53,19 @@ public class RPCModuleExample extends AbstractModule {
     @Inject
     private Eventloop eventloop;
 
+    @Inject
+    private Scheduler scheduler;
+
     public void sayHello() {
-        if (eventloop.getKeepAlive())
-            eventloop.submit(() -> Promises.interval(5000, Promise.complete())
-                                           .whenComplete(() -> log.info("Say Hello every 5 seconds"))
-                                           .whenComplete(() -> sayHello()));
+        eventloop.submit(() -> scheduler.schedule(
+            "Long running job monitor",
+            () -> log.info("Say Hello every 5 seconds"),           // the runnable to be scheduled
+            Schedules.fixedDelaySchedule(Duration.ofSeconds(5)) // the schedule associated to the runnable
+        ));
     }
+
+    @Provides
+    Scheduler scheduler() { return new Scheduler(); }
 
     @Eager
     @Provides
