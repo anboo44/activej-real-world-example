@@ -11,6 +11,7 @@ import io.activej.worker.WorkerPool;
 import io.activej.worker.WorkerPools;
 import io.activej.worker.annotation.Worker;
 import io.activej.worker.annotation.WorkerId;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 
@@ -20,6 +21,8 @@ import java.net.InetSocketAddress;
 // 3. Create eventLoop for every worker in pool
 // p/s: Mark `@Worker` to use workerPool
 // More: Step 2 + 3 ~> Create every independent eventLoop for every worker.
+
+@Slf4j
 public class MultiRpcServerModule extends AbstractModule {
     private MultiRpcServerModule() { }
 
@@ -52,7 +55,7 @@ public class MultiRpcServerModule extends AbstractModule {
     @Provides
     @Worker
     RpcServer server(@WorkerId int workerId, Eventloop eventloop, InetSocketAddress address) { // In every eventLoop, app will find and inject bean
-        System.out.println(String.format("[Worker %d] Start server", workerId));
+        log.info(String.format("[Worker %d] Start server", workerId));
 
         return RpcServer.create(eventloop)
 //                        .withSerializerBuilder(SerializerBuilder.create())  ~> For serialize custom class

@@ -8,12 +8,14 @@ import io.activej.inject.annotation.Inject;
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
 import io.activej.promise.Promise;
+import io.activej.promise.Promises;
 import io.activej.rpc.client.RpcClient;
 import io.activej.rpc.client.sender.RpcSender;
 import io.activej.rpc.client.sender.RpcStrategies;
 import io.activej.rpc.client.sender.RpcStrategy;
 import io.activej.rpc.server.RpcServer;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.CompletableFuture;
@@ -22,6 +24,22 @@ import java.util.concurrent.ExecutionException;
 import static io.activej.rpc.client.sender.RpcStrategies.roundRobin;
 import static io.activej.rpc.client.sender.RpcStrategies.servers;
 
+/**
+ * Error: Possible solutions: 1) Eventloop.create().withCurrentThread() ... {your code block} ... eventloop.run()
+ * ~> Reason: Start async process without eventLoop
+ * ex:
+ * Promise.ofBlocking(newSingleThreadExecutor(), () -> {
+ * System.out.println("Say Hello every 5 seconds");
+ * });
+ * <p>
+ * Right:
+ * eventloop.delay(5000, () -> Promise.ofBlocking(newSingleThreadExecutor(), () -> {
+ * System.out.println("Say Hello every 5 seconds");
+ * sayHello();
+ * }));
+ */
+
+@Slf4j
 @Inject
 public class RPCModuleExample extends AbstractModule {
     private static final int SERVICE_PORT  = 34765;
@@ -32,6 +50,13 @@ public class RPCModuleExample extends AbstractModule {
 
     @Inject
     private Eventloop eventloop;
+
+    public void sayHello() {
+        if (eventloop.getKeepAlive())
+            eventloop.submit(() -> Promises.interval(5000, Promise.complete())
+                                           .whenComplete(() -> log.info("Say Hello every 5 seconds"))
+                                           .whenComplete(() -> sayHello()));
+    }
 
     @Eager
     @Provides
