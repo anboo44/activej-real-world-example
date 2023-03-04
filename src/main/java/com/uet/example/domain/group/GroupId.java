@@ -8,7 +8,7 @@ import lombok.ToString;
 @Data
 @ToString
 @Embeddable
-public class GroupId implements Identifier<GroupEntity> {
+public class GroupId implements Identifier<Integer> {
     private Integer id;
 
     @Override

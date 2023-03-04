@@ -30,7 +30,6 @@ public class UserVO extends BaseM.VO {
     public UserEntity toEntity() {
         var entity = new UserEntity();
 
-        entity.setId(new UserId(0));
         entity.setAge(this.age);
         entity.setName(this.name);
 

@@ -8,6 +8,13 @@ import io.activej.promise.Promise;
 import java.util.List;
 import java.util.Optional;
 
+// Shorthand for Optional class
+class Opt {
+    public static <T> Optional<T> nullable(T data) {
+        return Optional.ofNullable(data);
+    }
+}
+
 @Inject
 public class UserRepository extends BaseRepository {
 
@@ -21,6 +28,6 @@ public class UserRepository extends BaseRepository {
     }
 
     public Promise<Optional<UserEntity>> findById(UserId userId) {
-        return Promise.ofBlocking(executor, () -> Optional.ofNullable(selectById(userId, UserEntity.class)));
+        return Promise.ofBlocking(executor, () -> Opt.nullable(selectById(userId, UserEntity.class)));
     }
 }

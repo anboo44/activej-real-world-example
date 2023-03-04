@@ -8,6 +8,14 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+/**
+ * VD: var entities = List.of(session.find(clazz, new UserId(1))); ~> findById
+ *
+ * Read more: https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html#pc-find
+ *            https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html#pc-filtering
+ * ~> Batch insert: https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html#batch-jdbcbatch
+ * https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html#annotations-jpa-prepersist
+ */
 abstract class BaseRepository {
     @Inject
     protected SessionFactory sessionFactory;
@@ -18,10 +26,13 @@ abstract class BaseRepository {
 
     protected <T> void save(T data) {
         var session = sessionFactory.openSession();
+        var txn = session.getTransaction();
+
         try {
-            session.getTransaction().begin();
-            session.persist(data);
-            session.getTransaction().commit();
+            txn.begin();
+            session.merge(data); // ~> save or update
+            session.flush(); // ~> Should in here before txn commit
+            txn.commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
@@ -40,7 +51,7 @@ abstract class BaseRepository {
         return entities;
     }
 
-    protected <T> T selectById(Identifier<T> id, Class<T> clazz) {
+    protected <T, R> R selectById(Identifier<T> id, Class<R> clazz) {
         var session = sessionFactory.openSession();
         var entity  = session.byId(clazz).load(id);
         session.close();

@@ -94,6 +94,6 @@ public final class DIProviderModule extends AbstractModule {
     //--------------/ AREA: database beans /--------------//
     @Provides
     private SessionFactory sessionFactory(ConfigLoader configLoader) {
-        return new DBSourceConfig(configLoader).makeSessionFactory();
+        return new DBSourceConfig(configLoader).loadPropertiesFile();
     }
 }
