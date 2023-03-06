@@ -49,6 +49,7 @@ On the dev/production, run commands:
 ```
 -> Build: maven package -DskipTests=true
 -> Run:   java -Denv={dev/prod} -jar AppLauncher.jar
+-> Build native: native-image -R:MaxHeapSize=2g --verbose -jar AppLauncher.jar
 ```
 
 The application runs on port: 8080
