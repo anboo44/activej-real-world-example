@@ -10,13 +10,16 @@ import io.activej.inject.annotation.Inject;
 import io.activej.inject.binding.Multibinders;
 import io.activej.inject.module.Module;
 import io.activej.inject.module.ModuleBuilder;
-import io.activej.launchers.http.HttpServerLauncher;
+import io.activej.launchers.http.MultithreadedHttpServerLauncher;
 
 /**
  * HttpServerLauncher: manages application lifecycle
  * AsyncServlet: receives HttpRequests, creates HttpResponses and sends them back to the client
+ * <p>
+ * extends HttpServerLauncher ~> Single core
+ * extends MultithreadedHttpServerLauncher ~> multi core
  */
-public class AppLauncher extends HttpServerLauncher {
+public class AppLauncher extends MultithreadedHttpServerLauncher {
 
     private @Inject DBMigration dbMigration;
 

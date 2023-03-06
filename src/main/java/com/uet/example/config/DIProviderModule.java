@@ -37,7 +37,7 @@ public final class DIProviderModule extends AbstractModule {
 
     @Provides
     @Named("database")
-    private Executor dbExecutor() { return newFixedThreadPool(5); }
+    private Executor dbExecutor() { return newFixedThreadPool(10); }
 
     //--------------/ AREA: beans about routing /--------------//
     @Provides
@@ -68,7 +68,8 @@ public final class DIProviderModule extends AbstractModule {
 
     @Provides
     private Config config() {
-        var rootConfig = Config.ofClassPathProperties(GENERAL_PROPERTIES_FILE);
+        var rootConfig = Config.ofClassPathProperties(GENERAL_PROPERTIES_FILE)
+                               .with("workers", "" + Runtime.getRuntime().availableProcessors());
 
         switch (Env.get()) {
             case Dev:
