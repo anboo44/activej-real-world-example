@@ -22,6 +22,9 @@
         <mysql.version>8.0.32</mysql.version>
         <hikari.version>5.0.1</hikari.version>
         <liquibase.version>4.19.0</liquibase.version>
+
+        <main.class>com.uet.example.AppLauncher</main.class>
+        <app.name>AppLauncher</app.name>
     </properties>
 
     <dependencies>
@@ -105,14 +108,53 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.uet.example.AppLauncher</mainClass>
+                                    <mainClass>${main.class}</mainClass>
                                 </transformer>
                             </transformers>
-                            <finalName>AppLauncher</finalName>
+                            <finalName>${app.name}</finalName>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
+    <!-- Build native-image by GraalVM -->
+    <profiles>
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>0.9.20</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>build-native</id>
+                                <goals>
+                                    <goal>generateResourceConfig</goal>
+                                    <goal>compile-no-fork</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>${main.class}</mainClass>
+                            <imageName>${app.name}</imageName>
+                            <buildArgs>
+                                <buildArg>--no-fallback</buildArg>
+                                <buildArg>--verbose</buildArg>
+                                <buildArg>
+                                    -H:ReflectionConfigurationFiles=${project.basedir}/graalvm/reflectionconfig.json
+                                    -H:ResourceConfigurationFiles=${project.basedir}/graalvm/resource-config.json
+                                </buildArg>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

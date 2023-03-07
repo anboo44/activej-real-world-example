@@ -1,0 +1,19 @@
+[
+  {
+    "name": "com.uet.example.AppLauncher",
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "com.uet.example.config.DIProviderModule",
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "io.activej.launchers.http.MultithreadedHttpServerLauncher",
+    "allDeclaredFields": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "io.activej.service.ServiceGraphModule",
+    "allDeclaredMethods": true
+  }
+]

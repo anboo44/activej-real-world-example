@@ -46,14 +46,26 @@ Setup database: Replace your config to file `app.properties`
 On the local, run main file: `AppLauncher.java`
 
 On the dev/production, run commands:
+
 ```
 -> Build: maven package -DskipTests=true
 -> Run:   java -Denv={dev/prod} -jar AppLauncher.jar
--> Build native: native-image -R:MaxHeapSize=2g --verbose -jar AppLauncher.jar
+-> Build native: native-image -R:MaxHeapSize=2g --verbose --target windows -jar AppLauncher.jar
 ```
 
 The application runs on port: 8080
 
+## GraalVM
+
+https://www.graalvm.org/22.1/reference-manual/native-image/Resources/
+
+```text
+-> 1. Build via native-image: native-image --verbose -jar AppLauncher.jar
+This way is simple without config
+
+-> Build via maven: maven -Pnative -DskipTests=true package
+Complicate with more configs
+```
 
 ## API Reference
 

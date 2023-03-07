@@ -19,16 +19,52 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.uet.example.AppLauncher</mainClass>
+                  <mainClass>${main.class}</mainClass>
                 </transformer>
               </transformers>
-              <finalName>AppLauncher</finalName>
+              <finalName>${app.name}</finalName>
             </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>native</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <version>0.9.20</version>
+            <extensions>true</extensions>
+            <executions>
+              <execution>
+                <id>build-native</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>generateResourceConfig</goal>
+                  <goal>compile-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <mainClass>${main.class}</mainClass>
+              <imageName>${app.name}</imageName>
+              <buildArgs>
+                <buildArg>--no-fallback</buildArg>
+                <buildArg>--verbose</buildArg>
+                <buildArg>-H:ReflectionConfigurationFiles=${project.basedir}/graalvm/reflectionconfig.json
+                  -H:ResourceConfigurationFiles=${project.basedir}/graalvm/resource-config.json
+                </buildArg>
+              </buildArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -56,15 +92,17 @@
     </dependency>
   </dependencies>
   <properties>
+    <hikari.version>5.0.1</hikari.version>
+    <activeJ.version>5.4.3</activeJ.version>
+    <app.name>AppLauncher</app.name>
     <hibernate.version>6.1.7.Final</hibernate.version>
+    <main.class>com.uet.example.AppLauncher</main.class>
     <maven.compiler.source>17</maven.compiler.source>
     <json.version>1.10.0</json.version>
     <liquibase.version>4.19.0</liquibase.version>
-    <hikari.version>5.0.1</hikari.version>
     <log.version>1.2.6</log.version>
     <lombok.version>1.18.26</lombok.version>
     <maven.compiler.target>17</maven.compiler.target>
-    <activeJ.version>5.4.3</activeJ.version>
     <mysql.version>8.0.32</mysql.version>
   </properties>
 </project>

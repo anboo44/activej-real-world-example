@@ -33,13 +33,13 @@ public final class RouteConfig {
                              .map(GET, withPath("/test-datastream"), asyncSampleController::testDataStream)
                              // UserController routers
                              .map(GET, withPath("/login"), userController::login)
-                             .map(POST, withPath("/users"), userController::register);
+                             .map(GET, withPath("/users"), userController::list);
     }
 
     public RoutingServlet privateServlet() {
         return RoutingServlet.create()
                              // UserController routers
-                             .map(GET, withPath("/users"), userController::list)
+                             .map(POST, withPath("/users"), userController::register)
                              .map(GET, withPath("/users/:userId"), userController::getById);
 
     }

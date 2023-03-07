@@ -1,0 +1,11 @@
+{
+  "resources": {
+    "includes": [
+      {
+        "pattern": ".*/*"
+      }
+    ],
+    "excludes": []
+  },
+  "bundles": []
+}
