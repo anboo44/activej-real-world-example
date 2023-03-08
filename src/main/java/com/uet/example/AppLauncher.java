@@ -53,7 +53,14 @@ public class AppLauncher extends MultithreadedHttpServerLauncher {
         var r      = numLst.allSatisfy(v -> v > 5);
         var m = numLst.collect(v -> v + 1)
                       .collectIf(v -> v > 1, v -> v + 2);
-        var sum = m.asParallel(ec, 2).sumOfInt(v -> v);
+        var sum = m.asParallel(ec, 2)
+                   .collect(v -> v + 10)
+                   .sumOfInt(v -> v);
+        var temp = m.asParallel(ec, 2)
+                    .collect(v -> v + 10)
+                    .select(v -> v % 2 == 0)
+                    .toList();
+        temp.contains(1);
 
         System.out.println(sum);
         System.out.println(r);
