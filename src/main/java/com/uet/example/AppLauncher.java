@@ -11,6 +11,7 @@ import io.activej.inject.binding.Multibinders;
 import io.activej.inject.module.Module;
 import io.activej.inject.module.ModuleBuilder;
 import io.activej.launchers.http.MultithreadedHttpServerLauncher;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
 /**
  * HttpServerLauncher: manages application lifecycle
@@ -44,6 +45,13 @@ public class AppLauncher extends MultithreadedHttpServerLauncher {
     }
 
     public static void main(String[] args) throws Exception {
+        var numLst = FastList.newListWith(1, 2, 3, 4, 5);
+        var r      = numLst.allSatisfy(v -> v > 5);
+        var m = numLst.collect(v -> v + 1)
+                      .collectIf(v -> v > 5, v -> v + 2);
+        System.out.println(r);
+        System.out.println(m.fastListEquals(m.clone()));
+
         // Speeding up dependency injection
         Injector.useSpecializer();
         var launcher = new AppLauncher();
