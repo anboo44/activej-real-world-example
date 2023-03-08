@@ -13,6 +13,8 @@ import io.activej.inject.module.ModuleBuilder;
 import io.activej.launchers.http.MultithreadedHttpServerLauncher;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
+import static java.util.concurrent.Executors.newFixedThreadPool;
+
 /**
  * HttpServerLauncher: manages application lifecycle
  * AsyncServlet: receives HttpRequests, creates HttpResponses and sends them back to the client
@@ -45,10 +47,15 @@ public class AppLauncher extends MultithreadedHttpServerLauncher {
     }
 
     public static void main(String[] args) throws Exception {
+        // View benchmark: https://www.baeldung.com/jdk-collections-vs-eclipse-collections
+        var ec     = newFixedThreadPool(2);
         var numLst = FastList.newListWith(1, 2, 3, 4, 5);
         var r      = numLst.allSatisfy(v -> v > 5);
         var m = numLst.collect(v -> v + 1)
-                      .collectIf(v -> v > 5, v -> v + 2);
+                      .collectIf(v -> v > 1, v -> v + 2);
+        var sum = m.asParallel(ec, 2).sumOfInt(v -> v);
+
+        System.out.println(sum);
         System.out.println(r);
         System.out.println(m.fastListEquals(m.clone()));
 
