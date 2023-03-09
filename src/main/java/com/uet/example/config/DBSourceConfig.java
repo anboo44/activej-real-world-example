@@ -18,7 +18,8 @@ public class DBSourceConfig {
         configuration.setProperty("hibernate.connection.provider_class", HikariCPConnectionProvider.class.getName());
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         configuration.setProperty("hibernate.dialect2", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.show_sql", "true");
+        configuration.setProperty("hibernate.show_sql", "false");
+        configuration.setProperty("org.hibernate.SQL_SLOW", "info");
 
         // Hibernate with HikariCP config
         configuration.setProperty("hibernate.hikari.dataSourceClassName", "com.mysql.cj.jdbc.MysqlDataSource");
