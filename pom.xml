@@ -120,6 +120,19 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <!-- Fix error: Jar Invalid signature file digest for Manifest main attributes -->
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
             </plugin>
         </plugins>
     </build>
