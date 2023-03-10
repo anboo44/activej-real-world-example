@@ -68,7 +68,7 @@
                 <buildArg>--no-fallback</buildArg>
                 <buildArg>--verbose</buildArg>
                 <buildArg>-H:ReflectionConfigurationFiles=${project.basedir}/graalvm/reflectionconfig.json
-                  -H:ResourceConfigurationFiles=${project.basedir}/graalvm/resource-config.json
+                    -H:ResourceConfigurationFiles=${project.basedir}/graalvm/resource-config.json
                 </buildArg>
               </buildArgs>
             </configuration>

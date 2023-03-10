@@ -17,6 +17,7 @@ public class DBSourceConfig {
         Configuration configuration = new Configuration();
 //        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        configuration.setProperty("hibernate.hbm2ddl.auto", "validate");
 
         // No use hikari
 //        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
