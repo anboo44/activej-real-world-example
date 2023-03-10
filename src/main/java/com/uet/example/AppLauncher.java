@@ -37,7 +37,7 @@ public class AppLauncher extends MultithreadedHttpServerLauncher {
     @Override
     protected void onStart() {
         this.logger.info("Execute action before app started");
-        dbMigration.migrate();
+//        dbMigration.migrate();
     }
 
     @Override

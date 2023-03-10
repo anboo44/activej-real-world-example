@@ -12,11 +12,11 @@ import org.hibernate.annotations.FetchMode;
 @Data
 @Entity
 @ToString
-@Table(name = "user")
+@Table(name = "user_tbl")
 public class UserEntity implements IEntity<UserId> {
     //-------------/ AREA: Declaration of fields /-----------------//
     @EmbeddedId
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UserId id;
 
     private String name;

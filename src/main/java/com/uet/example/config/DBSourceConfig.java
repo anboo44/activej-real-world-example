@@ -15,7 +15,8 @@ public class DBSourceConfig {
     public SessionFactory makeSessionFactory() {
         // Hibernate core config
         Configuration configuration = new Configuration();
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+//        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 
         // No use hikari
 //        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
@@ -27,7 +28,8 @@ public class DBSourceConfig {
 
         // Hibernate with HikariCP config
         configuration.setProperty("hibernate.connection.provider_class", HikariCPConnectionProvider.class.getName());
-        configuration.setProperty("hibernate.hikari.dataSourceClassName", "com.mysql.cj.jdbc.MysqlDataSource");
+//        configuration.setProperty("hibernate.hikari.dataSourceClassName", "com.mysql.cj.jdbc.MysqlDataSource");
+        configuration.setProperty("hibernate.hikari.dataSourceClassName", "org.h2.jdbcx.JdbcDataSource");
         configuration.setProperty("hibernate.hikari.dataSource.url", configLoader.db.url);
         configuration.setProperty("hibernate.hikari.dataSource.user", configLoader.db.username);
         configuration.setProperty("hibernate.hikari.dataSource.password", configLoader.db.password);
@@ -36,16 +38,16 @@ public class DBSourceConfig {
 
         // HikariCP config is only for MySQL
         // https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration
-        configuration.setProperty("hibernate.hikari.dataSource.cachePrepStmts", "true");
-        configuration.setProperty("hibernate.hikari.dataSource.prepStmtCacheSize", "250");
-        configuration.setProperty("hibernate.hikari.dataSource.prepStmtCacheSqlLimit", "2048");
-        configuration.setProperty("hibernate.hikari.dataSource.useServerPrepStmts", "true");
-        configuration.setProperty("hibernate.hikari.dataSource.useLocalSessionState", "true");
-        configuration.setProperty("hibernate.hikari.dataSource.rewriteBatchedStatements", "true");
-        configuration.setProperty("hibernate.hikari.dataSource.cacheResultSetMetadata", "true");
-        configuration.setProperty("hibernate.hikari.dataSource.cacheServerConfiguration", "true");
-        configuration.setProperty("hibernate.hikari.dataSource.elideSetAutoCommits", "true");
-        configuration.setProperty("hibernate.hikari.dataSource.maintainTimeStats", "true");
+//        configuration.setProperty("hibernate.hikari.dataSource.cachePrepStmts", "true");
+//        configuration.setProperty("hibernate.hikari.dataSource.prepStmtCacheSize", "250");
+//        configuration.setProperty("hibernate.hikari.dataSource.prepStmtCacheSqlLimit", "2048");
+//        configuration.setProperty("hibernate.hikari.dataSource.useServerPrepStmts", "true");
+//        configuration.setProperty("hibernate.hikari.dataSource.useLocalSessionState", "true");
+//        configuration.setProperty("hibernate.hikari.dataSource.rewriteBatchedStatements", "true");
+//        configuration.setProperty("hibernate.hikari.dataSource.cacheResultSetMetadata", "true");
+//        configuration.setProperty("hibernate.hikari.dataSource.cacheServerConfiguration", "true");
+//        configuration.setProperty("hibernate.hikari.dataSource.elideSetAutoCommits", "true");
+//        configuration.setProperty("hibernate.hikari.dataSource.maintainTimeStats", "false");
 
         // Register Record using annotation
         configuration.addAnnotatedClass(UserEntity.class);

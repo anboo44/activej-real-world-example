@@ -16,11 +16,11 @@ import static jakarta.persistence.EnumType.STRING;
 @Data
 @Entity
 @ToString
-@Table(name = "user_group")
+@Table(name = "user_group_tbl")
 public class GroupEntity implements IEntity<GroupId> {
     //-------------/ AREA: Declaration of fields /-----------------//
     @EmbeddedId
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private GroupId id;
 
     private String name;
